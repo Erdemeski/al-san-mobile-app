@@ -12,7 +12,7 @@ export default function ModalScreen() {
       <StatusBar
         style={Platform.OS === 'ios' ? 'light' : colorScheme === 'dark' ? 'light' : 'dark'}
       />
-      <View className="flex-1 items-center justify-center gap-1 px-12">
+      {/*       <View className="flex-1 items-center justify-center gap-1 px-12">
         <Icon name="file-plus-outline" size={42} color={colors.grey} />
         <Text variant="title3" className="pb-1 text-center font-semibold">
           NativeWindUI
@@ -26,6 +26,11 @@ export default function ModalScreen() {
             NativeWindUI
           </Text>
           {' website.'}
+        </Text>
+      </View> */}
+      <View className="flex-1 items-center justify-center gap-1 px-12">
+        <Text variant="title3" className="pb-1 text-center font-semibold">
+          Uygulama Ayarları
         </Text>
       </View>
     </>

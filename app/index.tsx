@@ -1,151 +1,95 @@
-import { useHeaderHeight } from '@react-navigation/elements';
 import { Icon } from '@roninoss/icons';
-import { FlashList } from '@shopify/flash-list';
-import { cssInterop } from 'nativewind';
-import * as React from 'react';
-import { Linking, useWindowDimensions, View, Alert } from 'react-native';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { Link, useRouter } from 'expo-router';
+import { Image, Platform, View, type ViewStyle } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
+import { Button } from '~/components/nativewindui/Button';
 import { Text } from '~/components/nativewindui/Text';
 import { useColorScheme } from '~/lib/useColorScheme';
-import { useHeaderSearchBar } from '~/lib/useHeaderSearchBar';
 
-cssInterop(FlashList, {
-  className: 'style',
-  contentContainerClassName: 'contentContainerStyle',
-});
+const ROOT_STYLE: ViewStyle = { flex: 1 };
 
-export default function Screen() {
-  const searchValue = useHeaderSearchBar({ hideWhenScrolling: COMPONENTS.length === 0 });
-
-  const data = searchValue
-    ? COMPONENTS.filter((c) => c.name.toLowerCase().includes(searchValue.toLowerCase()))
-    : COMPONENTS;
-
-  return (
-    <FlashList
-      contentInsetAdjustmentBehavior="automatic"
-      keyboardShouldPersistTaps="handled"
-      data={data}
-      estimatedItemSize={200}
-      contentContainerClassName="py-4 android:pb-12"
-      extraData={searchValue}
-      removeClippedSubviews={false} // used for selecting text on android
-      keyExtractor={keyExtractor}
-      ItemSeparatorComponent={renderItemSeparator}
-      renderItem={renderItem}
-      ListEmptyComponent={COMPONENTS.length === 0 ? ListEmptyComponent : undefined}
-    />
-  );
-}
-
-function ListEmptyComponent() {
-  const insets = useSafeAreaInsets();
-  const dimensions = useWindowDimensions();
-  const headerHeight = useHeaderHeight();
+export default function WelcomeConsentScreen() {
   const { colors } = useColorScheme();
-  const height = dimensions.height - headerHeight - insets.bottom - insets.top;
-
+  const router = useRouter();
   return (
-    <View style={{ height }} className="flex-1 items-center justify-center gap-1 px-12">
-      <Icon name="file-plus-outline" size={42} color={colors.grey} />
-      <Text variant="title3" className="pb-1 text-center font-semibold">
-        No Components Installed
-      </Text>
-      <Text color="tertiary" variant="subhead" className="pb-4 text-center">
-        You can install any of the free components from the{' '}
-        <Text
-          onPress={() => Linking.openURL('https://nativewindui.com')}
-          variant="subhead"
-          className="text-primary">
-          NativeWindUI
-        </Text>
-        {' website.'}
-      </Text>
-    </View>
-  );
-}
-
-type ComponentItem = { name: string; component: React.FC };
-
-function keyExtractor(item: ComponentItem) {
-  return item.name;
-}
-
-function renderItemSeparator() {
-  return <View className="p-2" />;
-}
-
-function renderItem({ item }: { item: ComponentItem }) {
-  return (
-    <Card title={item.name}>
-      <item.component />
-    </Card>
-  );
-}
-
-function Card({ children, title }: { children: React.ReactNode; title: string }) {
-  return (
-    <View className="px-4">
-      <View className="gap-4 rounded-xl border border-border bg-card p-4 pb-6 shadow-sm shadow-black/10 dark:shadow-none">
-        <Text className="text-center text-sm font-medium tracking-wider opacity-60">{title}</Text>
-        {children}
-      </View>
-    </View>
-  );
-}
-
-const COMPONENTS: ComponentItem[] = [
-  {
-    name: 'Text',
-    component: function TextExample() {
-      return (
-        <View className="gap-2">
-          <Text variant="largeTitle" className="text-center">
-            Large Title
+    <SafeAreaView style={ROOT_STYLE}>
+      <View className="mx-auto max-w-sm flex-1 justify-between gap-4 px-8 py-4 ">
+        <View className="flex justify-center items-center ios:pt-8 pt-12">
+          <Text variant="largeTitle" className="ios:text-left ios:font-black text-center font-bold">
+            AL-SAN Meram Un
           </Text>
-          <Text variant="title1" className="text-center">
-            Title 1
+          <Text
+            variant="largeTitle"
+            className="ios:text-left ios:font-black text-primary text-center font-bold">
+            HOŞ GELDİNİZ!
           </Text>
-          <Text variant="title2" className="text-center">
-            Title 2
-          </Text>
-          <Text variant="title3" className="text-center">
-            Title 3
-          </Text>
-          <Text variant="heading" className="text-center">
-            Heading
-          </Text>
-          <Text variant="body" className="text-center">
-            Body
-          </Text>
-          <Text variant="callout" className="text-center">
-            Callout
-          </Text>
-          <Text variant="subhead" className="text-center">
-            Subhead
-          </Text>
-          <Text variant="footnote" className="text-center">
-            Footnote
-          </Text>
-          <Text variant="caption1" className="text-center">
-            Caption 1
-          </Text>
-          <Text variant="caption2" className="text-center">
-            Caption 2
-          </Text>
+          <Image className="h-40 w-40 mt-3" source={require('../assets/icon.png')} />
         </View>
-      );
-    },
-  },
+        <View className="gap-8">
+          {FEATURES.map((feature) => (
+            <View key={feature.title} className="flex-row gap-4">
+              <View className="pt-px">
+                <Icon
+                  name={feature.icon}
+                  size={38}
+                  color={colors.primary}
+                  ios={{ renderingMode: 'hierarchical' }}
+                />
+              </View>
+              <View className="flex-1">
+                <Text className="font-bold">{feature.title}</Text>
+                <Text variant="footnote">{feature.description}</Text>
+              </View>
+            </View>
+          ))}
+        </View>
+        <View className="gap-4">
+          <View className="items-center">
+            <Icon
+              name="account-multiple"
+              size={24}
+              color={colors.primary}
+              ios={{ renderingMode: 'hierarchical' }}
+            />
+            <Text variant="caption2" className="pt-1 text-center">
+              By pressing continue, you agree to our{' '}
+              <Link href="/">
+                <Text variant="caption2" className="text-primary">
+                  Terms of Service
+                </Text>
+              </Link>{' '}
+              and that you have read our{' '}
+              <Link href="/">
+                <Text variant="caption2" className="text-primary">
+                  Privacy Policy
+                </Text>
+              </Link>
+            </Text>
+          </View>
+          <Button size={Platform.select({ ios: 'lg', default: 'md' })} onPress={() => router.replace('/login')}>
+            <Text>Devam</Text>
+          </Button>
+        </View>
+      </View>
+    </SafeAreaView >
+  );
+}
+
+const FEATURES = [
   {
-    name: 'Selectable Text',
-    component: function SelectableTextExample() {
-      return (
-        <Text uiTextView selectable>
-          Long press or double press this text
-        </Text>
-      );
-    },
+    title: 'Kullanıcı Girişi',
+    description: 'SAP hesabınıza kolayca giriş yapın ve bağımlılıklarınıza ulaşın',
+    icon: 'account-circle-outline',
   },
-];
+/*   {
+    title: 'Secure Messaging',
+    description: 'Chat securely with friends and family in real-time.',
+    icon: 'message-processing',
+  },
+ */  {
+    title: 'Çapraz SAP Platformu',
+    description: 'Sizin için özelleştirilmiş SAP panellerini kolaylıkla kullanın',
+    icon: 'chart-timeline-variant',
+  },
+] as const;

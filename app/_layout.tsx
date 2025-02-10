@@ -2,7 +2,7 @@ import '../global.css';
 import 'expo-dev-client';
 import { ThemeProvider as NavThemeProvider } from '@react-navigation/native';
 import { Icon } from '@roninoss/icons';
-import { Link, Stack } from 'expo-router';
+import { Link, Slot, Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { Pressable, View } from 'react-native';
 
@@ -31,9 +31,12 @@ export default function RootLayout() {
 
       <NavThemeProvider value={NAV_THEME[colorScheme]}>
         <Stack screenOptions={SCREEN_OPTIONS}>
-          <Stack.Screen name="index" options={INDEX_OPTIONS} />
+          <Stack.Screen name="index" /* options={INDEX_OPTIONS} */ options={{ headerShown: false }} />
+          <Stack.Screen name="login" options={LOGIN_OPTIONS} />
           <Stack.Screen name="modal" options={MODAL_OPTIONS} />
+          <Stack.Screen name="home" options={{ headerShown: false }} />
         </Stack>
+        {/* <Slot /> */}
       </NavThemeProvider>
 
       {/* </ExampleProvider> */}
@@ -41,13 +44,21 @@ export default function RootLayout() {
   );
 }
 
+
+
 const SCREEN_OPTIONS = {
   animation: 'ios_from_right', // for android
 } as const;
 
-const INDEX_OPTIONS = {
+/* const INDEX_OPTIONS = {
   headerLargeTitle: true,
   title: 'NativeWindUI',
+  headerRight: () => <SettingsIcon />,
+} as const;
+ */
+const LOGIN_OPTIONS = {
+  headerLargeTitle: true,
+  title: 'SAP Giriş Ekranı',
   headerRight: () => <SettingsIcon />,
 } as const;
 
@@ -69,6 +80,6 @@ function SettingsIcon() {
 const MODAL_OPTIONS = {
   presentation: 'modal',
   animation: 'fade_from_bottom', // for android
-  title: 'Settings',
+  title: 'Uygulama Ayarları',
   headerRight: () => <ThemeToggle />,
 } as const;

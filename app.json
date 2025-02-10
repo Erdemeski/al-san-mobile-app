@@ -4,6 +4,8 @@
     "slug": "al-san-app",
     "version": "1.0.0",
 
+    "newArchEnabled": true,
+    
     "scheme": "al-san-app",
     "web": {
       "bundler": "metro",
