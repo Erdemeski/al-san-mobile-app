@@ -1,0 +1,38 @@
+{
+  "cesVersion": "2.12.2",
+  "projectName": "al-san-app",
+  "packages": [
+    {
+      "name": "nativewindui",
+      "type": "styling",
+      "options": {
+        "selectedComponents": ["text"]
+      }
+    },
+    {
+      "name": "expo-router",
+      "type": "navigation",
+      "options": {
+        "type": "stack"
+      }
+    }
+  ],
+  "flags": {
+    "noGit": false,
+    "noInstall": false,
+    "overwrite": false,
+    "importAlias": true,
+    "packageManager": "npm",
+    "eas": false
+  },
+  "packageManager": {
+    "type": "npm",
+    "version": "11.1.0"
+  },
+  "os": {
+    "type": "Windows_NT",
+    "platform": "win32",
+    "arch": "x64",
+    "kernelVersion": "10.0.22631"
+  }
+}
