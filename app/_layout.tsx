@@ -39,6 +39,7 @@ export default function RootLayout() {
             <Stack.Screen name="login" options={LOGIN_OPTIONS} />
             <Stack.Screen name="modal" options={MODAL_OPTIONS} />
             <Stack.Screen name="home" options={{ headerShown: false }} />
+            <Stack.Screen name="services" options={{ headerShown: false }} />
           </Stack>
           {/* <Slot /> */}
         </NavThemeProvider>
@@ -52,7 +53,7 @@ export default function RootLayout() {
 
 
 const SCREEN_OPTIONS = {
-  animation: 'ios_from_right', // for android
+  animation: 'fade', // for android
 } as const;
 
 /* const INDEX_OPTIONS = {

@@ -100,21 +100,21 @@ function Card({ children, title }: { children: React.ReactNode; title: string })
 
 const COMPONENTS: ComponentItem[] = [
   {
-    name: 'Hizmet 1',
+    name: 'Satış Sipariş',
     component: function TextExample() {
       return (
         <View className="gap-2">
           <Text variant="largeTitle" className="text-center mb-6">
-            Hizmet 1
+            Satış Sipariş
           </Text>
           <View className="items-center">
-            <Icon name="archive-outline" size={60} color="rgb(110, 110, 110)" />
+            <Icon name="cart" size={60} color="rgb(110, 110, 110)" />
           </View>
           <Text variant="callout" className="text-center mb-5">
-            Hizmet 1'e ulaşın.
+            Satış siparişi oluşturma paneline ulaşın.
           </Text>
 
-          <Link href="/modal" asChild>
+          <Link href="/services/satsip" asChild>
             <Button size='lg'>
               <Text>Hizmete Git</Text>
             </Button>
@@ -132,14 +132,14 @@ const COMPONENTS: ComponentItem[] = [
             Hizmet 2
           </Text>
           <View className="items-center">
-            <Icon name="atom" size={60} color="rgb(110, 110, 110)" />
+            <Icon name="archive-outline" size={60} color="rgb(110, 110, 110)" />
           </View>
           <Text variant="callout" className="text-center mb-5">
             Hizmet 2'ye ulaşın.
           </Text>
 
           <Link href="/modal" asChild>
-            <Button size='lg'>
+            <Button disabled size='lg'>
               <Text>Hizmete Git</Text>
             </Button>
           </Link>
@@ -163,7 +163,7 @@ const COMPONENTS: ComponentItem[] = [
           </Text>
 
           <Link href="/modal" asChild>
-            <Button size='lg'>
+            <Button disabled size='lg'>
               <Text>Hizmete Git</Text>
             </Button>
           </Link>
@@ -187,7 +187,7 @@ const COMPONENTS: ComponentItem[] = [
           </Text>
 
           <Link href="/modal" asChild>
-            <Button size='lg'>
+            <Button disabled size='lg'>
               <Text>Hizmete Git</Text>
             </Button>
           </Link>
@@ -211,7 +211,7 @@ const COMPONENTS: ComponentItem[] = [
           </Text>
 
           <Link href="/modal" asChild>
-            <Button size='lg'>
+            <Button disabled size='lg'>
               <Text>Hizmete Git</Text>
             </Button>
           </Link>
