@@ -24,7 +24,7 @@ export default function WelcomeConsentScreen() {
             className="ios:text-left ios:font-black text-primary text-center font-bold">
             HOŞ GELDİNİZ!
           </Text>
-          <Image className="h-40 w-40 mt-3" source={require('../assets/icon.png')} />
+          <Image className="h-48 w-48 mt-3" source={require('~/assets/meramunLOGOYENI.png')} />
         </View>
         <View className="gap-8">
           {FEATURES.map((feature) => (
@@ -44,7 +44,7 @@ export default function WelcomeConsentScreen() {
             </View>
           ))}
         </View>
-        <View className="gap-4">
+        <View className="gap-4 mb-5">
           <View className="items-center">
             <Icon
               name="account-multiple"
@@ -79,7 +79,7 @@ export default function WelcomeConsentScreen() {
 const FEATURES = [
   {
     title: 'Kullanıcı Girişi',
-    description: 'SAP hesabınıza kolayca giriş yapın ve bağımlılıklarınıza ulaşın',
+    description: 'SAP hesabınıza kolayca giriş yapın ve panellerinize ulaşın',
     icon: 'account-circle-outline',
   },
 /*   {

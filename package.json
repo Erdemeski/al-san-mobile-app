@@ -12,7 +12,9 @@
   },
   "dependencies": {
     "@expo/vector-icons": "^14.0.0",
+    "@react-native-async-storage/async-storage": "^2.1.1",
     "@react-navigation/native": "^7.0.3",
+    "@reduxjs/toolkit": "^2.5.1",
     "@rn-primitives/slot": "^1.1.0",
     "@roninoss/icons": "^0.0.4",
     "@shopify/flash-list": "1.7.1",
@@ -39,6 +41,7 @@
     "react-native-screens": "~4.4.0",
     "react-native-uitextview": "^1.1.4",
     "react-native-web": "~0.19.10",
+    "react-redux": "^9.2.0",
     "tailwind-merge": "^2.2.1"
   },
   "devDependencies": {

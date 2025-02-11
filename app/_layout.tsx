@@ -10,6 +10,8 @@ import { ThemeToggle } from '~/components/ThemeToggle';
 import { cn } from '~/lib/cn';
 import { useColorScheme, useInitialAndroidBarSync } from '~/lib/useColorScheme';
 import { NAV_THEME } from '~/theme';
+import { Provider } from 'react-redux';
+import store from "~/store/store";
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -22,22 +24,25 @@ export default function RootLayout() {
 
   return (
     <>
-      <StatusBar
-        key={`root-status-bar-${isDarkColorScheme ? 'light' : 'dark'}`}
-        style={isDarkColorScheme ? 'light' : 'dark'}
-      />
-      {/* WRAP YOUR APP WITH ANY ADDITIONAL PROVIDERS HERE */}
-      {/* <ExampleProvider> */}
+      <Provider store={store}>
 
-      <NavThemeProvider value={NAV_THEME[colorScheme]}>
-        <Stack screenOptions={SCREEN_OPTIONS}>
-          <Stack.Screen name="index" /* options={INDEX_OPTIONS} */ options={{ headerShown: false }} />
-          <Stack.Screen name="login" options={LOGIN_OPTIONS} />
-          <Stack.Screen name="modal" options={MODAL_OPTIONS} />
-          <Stack.Screen name="home" options={{ headerShown: false }} />
-        </Stack>
-        {/* <Slot /> */}
-      </NavThemeProvider>
+        <StatusBar
+          key={`root-status-bar-${isDarkColorScheme ? 'light' : 'dark'}`}
+          style={isDarkColorScheme ? 'light' : 'dark'}
+        />
+        {/* WRAP YOUR APP WITH ANY ADDITIONAL PROVIDERS HERE */}
+        {/* <ExampleProvider> */}
+
+        <NavThemeProvider value={NAV_THEME[colorScheme]}>
+          <Stack screenOptions={SCREEN_OPTIONS}>
+            <Stack.Screen name="index" /* options={INDEX_OPTIONS} */ options={{ headerShown: false }} />
+            <Stack.Screen name="login" options={LOGIN_OPTIONS} />
+            <Stack.Screen name="modal" options={MODAL_OPTIONS} />
+            <Stack.Screen name="home" options={{ headerShown: false }} />
+          </Stack>
+          {/* <Slot /> */}
+        </NavThemeProvider>
+      </Provider>
 
       {/* </ExampleProvider> */}
     </>
