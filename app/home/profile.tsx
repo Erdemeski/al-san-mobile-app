@@ -1,11 +1,9 @@
-import { useHeaderHeight } from '@react-navigation/elements';
 import { Icon } from '@roninoss/icons';
 import { FlashList } from '@shopify/flash-list';
 import { Link, /* router, */ useRouter } from 'expo-router';
 import { cssInterop } from 'nativewind';
 import * as React from 'react';
-import { Linking, useWindowDimensions, View, Alert, TouchableOpacity, Image } from 'react-native';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { Linking, useWindowDimensions, View, Alert, TouchableOpacity, Image, ScrollView } from 'react-native';
 import { Button } from '~/components/nativewindui/Button';
 
 import { Text } from '~/components/nativewindui/Text';
@@ -15,6 +13,8 @@ import { useColorScheme } from '~/lib/useColorScheme';
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "~/store/store";
 import { logoutUser } from "../../store/authSlice";
+import { useHeaderHeight } from '@react-navigation/elements';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 
 cssInterop(FlashList, {
@@ -38,6 +38,9 @@ export default function Screen() {
     console.log("USER TOKEN: ", token);
     console.log("USER INFO: ", userInfo);
 
+    const headerHeight = useHeaderHeight();
+    const insets = useSafeAreaInsets();
+
     React.useEffect(() => {
         if (!token) {
             router.replace("/login"); // Kullanıcı giriş yapmadıysa giriş ekranına yönlendir
@@ -46,20 +49,25 @@ export default function Screen() {
 
 
     return (
-        <FlashList
-            contentInsetAdjustmentBehavior="automatic"
-            keyboardShouldPersistTaps="handled"
-            data={data}
-            estimatedItemSize={200}
-            contentContainerClassName="py-4 android:pb-12"
-            /*             extraData={searchValue}
-             */
-            removeClippedSubviews={false} // used for selecting text on android
-            keyExtractor={keyExtractor}
-            ItemSeparatorComponent={renderItemSeparator}
-            renderItem={renderItem}
-            ListEmptyComponent={COMPONENTS.length === 0 ? ListEmptyComponent : undefined}
-        />
+        <ScrollView
+            style={{ paddingTop: headerHeight, paddingBottom: insets.bottom + 20 }}
+        >
+            <FlashList
+                contentInsetAdjustmentBehavior="automatic"
+                keyboardShouldPersistTaps="handled"
+                data={data}
+                estimatedItemSize={200}
+                contentContainerClassName="py-4 android:pb-12"
+                contentContainerStyle={{ paddingBottom: insets.bottom + 115 }}
+                /*             extraData={searchValue}
+                */
+                removeClippedSubviews={false} // used for selecting text on android
+                keyExtractor={keyExtractor}
+                ItemSeparatorComponent={renderItemSeparator}
+                renderItem={renderItem}
+                ListEmptyComponent={COMPONENTS.length === 0 ? ListEmptyComponent : undefined}
+            />
+        </ScrollView>
     );
 }
 

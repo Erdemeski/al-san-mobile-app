@@ -21,6 +21,7 @@ export {
 export default function RootLayout() {
   useInitialAndroidBarSync();
   const { colorScheme, isDarkColorScheme } = useColorScheme();
+  console.log(colorScheme);
 
   return (
     <>

@@ -38,25 +38,25 @@ export default function SatSipScreen() {
     console.log("USER INFO: ", userInfo);
     const errorMessage = useSelector((state: RootState) => state.auth.error);
 
-/*     useEffect(() => {
-        dispatch(clearError()); // Sayfa her açıldığında hata temizlensin
-    }, []);
-    useEffect(() => {
-        dispatch(clearError()); // Sayfa her açıldığında hata temizlensin
-    }, [username, password]);
- */
+    /*     useEffect(() => {
+            dispatch(clearError()); // Sayfa her açıldığında hata temizlensin
+        }, []);
+        useEffect(() => {
+            dispatch(clearError()); // Sayfa her açıldığında hata temizlensin
+        }, [username, password]);
+     */
 
-/*     const handleLogin = () => {
-        if (!username || !password) {
-            setError('Kullanıcı adı ve şifre gerekli!');
-            return;
-        }
-
-        dispatch(clearError());
-        dispatch(loginUser({ username, password }));
-
-    };
- */
+    /*     const handleLogin = () => {
+            if (!username || !password) {
+                setError('Kullanıcı adı ve şifre gerekli!');
+                return;
+            }
+    
+            dispatch(clearError());
+            dispatch(loginUser({ username, password }));
+    
+        };
+     */
     /*     useEffect(() => {
             const backAction = () => {
                 router.replace('/');
@@ -69,15 +69,15 @@ export default function SatSipScreen() {
         }, []);
      */
     return (
-        <SafeAreaView style={ROOT_STYLE}>
+        <SafeAreaView style={ROOT_STYLE} edges={['bottom', "left", "right"]}>
             <KeyboardAvoidingView
                 behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-                keyboardVerticalOffset={Platform.OS === 'ios' ? 100 : 0}
-                style={{ flex: 1 }}
+                keyboardVerticalOffset={/* Platform.OS === 'ios' ? 100 : 0 */ 0}
+                style={{ flex: 1, justifyContent: 'center' }}
             >
                 <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
                     <ScrollView
-                        contentContainerStyle={{ flexGrow: 1 }}
+                        contentContainerStyle={{ flexGrow: 1, paddingTop: 0, minHeight: "100%", marginTop: 0 }}
                         keyboardShouldPersistTaps="handled"
                     >
                         <View className="mx-auto max-w-sm flex-1 justify-between gap-4 px-8 py-4">
@@ -102,6 +102,54 @@ export default function SatSipScreen() {
                                     onChangeText={setUsername}
                                     placeholder="Input 1"
                                     error={error && !username ? error : undefined}
+                                    autoCapitalize="none"
+                                />
+                                <CustomTextInput
+                                    label="Layer 2: "
+                                    value={password}
+                                    onChangeText={setPassword}
+                                    placeholder="Input 2"
+                                    error={error && !password ? error : undefined}
+                                    autoCapitalize="none"
+                                />
+                                <CustomTextInput
+                                    label="Layer 2: "
+                                    value={password}
+                                    onChangeText={setPassword}
+                                    placeholder="Input 2"
+                                    error={error && !password ? error : undefined}
+                                    autoCapitalize="none"
+                                />
+                                <CustomTextInput
+                                    label="Layer 2: "
+                                    value={password}
+                                    onChangeText={setPassword}
+                                    placeholder="Input 2"
+                                    error={error && !password ? error : undefined}
+                                    autoCapitalize="none"
+                                />
+                                <CustomTextInput
+                                    label="Layer 2: "
+                                    value={password}
+                                    onChangeText={setPassword}
+                                    placeholder="Input 2"
+                                    error={error && !password ? error : undefined}
+                                    autoCapitalize="none"
+                                />
+                                <CustomTextInput
+                                    label="Layer 2: "
+                                    value={password}
+                                    onChangeText={setPassword}
+                                    placeholder="Input 2"
+                                    error={error && !password ? error : undefined}
+                                    autoCapitalize="none"
+                                />
+                                <CustomTextInput
+                                    label="Layer 2: "
+                                    value={password}
+                                    onChangeText={setPassword}
+                                    placeholder="Input 2"
+                                    error={error && !password ? error : undefined}
                                     autoCapitalize="none"
                                 />
                                 <CustomTextInput
