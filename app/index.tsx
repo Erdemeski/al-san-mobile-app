@@ -15,8 +15,8 @@ export default function WelcomeConsentScreen() {
   return (
     <SafeAreaView style={ROOT_STYLE}>
       <View className="mx-auto max-w-sm flex-1 justify-between gap-4 px-8 py-4 ">
-        <View className="flex justify-center items-center ios:pt-8 pt-12">
-          <Text variant="largeTitle" className="ios:text-left ios:font-black text-center font-bold">
+        <View className="flex justify-center items-center ios:pt-16 pt-8">
+          <Text variant="largeTitle" className="ios:text-left ios:font-black ios:text-3xl text-center font-bold">
             AL-SAN Meram Un
           </Text>
           <Text

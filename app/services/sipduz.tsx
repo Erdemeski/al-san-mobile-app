@@ -43,7 +43,7 @@ const data = [
 
 const ROOT_STYLE: ViewStyle = { flex: 1 };
 
-export default function SatSipScreen() {
+export default function SipDuzScreen() {
     /*     const router = useRouter();
      */
     const [username, setUsername] = React.useState('');
@@ -149,7 +149,7 @@ export default function SatSipScreen() {
                                     </Text>
                                 </View>
                                 <Text variant="largeTitle" className="ios:text-left ios:font-black text-primary text-center font-bold text-sky-600 mt-0.5">
-                                    Oluşturma Paneli
+                                Düzenleme Paneli
                                 </Text>
                             </View>
                             <View className="w-full">

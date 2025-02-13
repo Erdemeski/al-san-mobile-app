@@ -15,6 +15,7 @@ import { RootState } from "~/store/store";
 import { logoutUser } from "../../store/authSlice";
 import { useHeaderHeight } from '@react-navigation/elements';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { Avatar, AvatarFallback, AvatarImage } from '~/components/nativewindui/Avatar';
 
 
 cssInterop(FlashList, {
@@ -135,8 +136,18 @@ function ProfileComponent() {
     return (
         <>
             <View className="items-center gap-2">
-                <View className="items-center">
-                    <Icon name="account-circle" size={60} color="rgb(110, 110, 110)" />
+                <View className="items-center my-2">
+                    {/* <Icon name="account-circle" size={60} color="rgb(110, 110, 110)" /> */}
+                    <Avatar alt="SAP Avatar" className='h-16 w-16'
+                    >
+                        <AvatarImage
+                            source={require('~/assets/avatar.jpg')}
+                        />
+                        <AvatarFallback>
+                            <Text className="text-foreground">SAP</Text>
+                        </AvatarFallback>
+                    </Avatar>
+
                 </View>
                 <View className='justify-center flex flex-row mb-1'>
                     <Image className="h-6 w-12" source={require('~/assets/SAP_logo.png')} />

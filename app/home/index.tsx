@@ -39,8 +39,8 @@ export default function Screen() {
         data={data}
         estimatedItemSize={200}
         contentContainerClassName="py-4 android:pb-12"
-         contentContainerStyle={{ paddingBottom: insets.bottom + 115 }}
-         extraData={searchValue}
+        contentContainerStyle={{ paddingBottom: insets.bottom + 115 }}
+        extraData={searchValue}
         removeClippedSubviews={false} // used for selecting text on android
         keyExtractor={keyExtractor}
         ItemSeparatorComponent={renderItemSeparator}
@@ -134,70 +134,22 @@ const COMPONENTS: ComponentItem[] = [
     },
   },
   {
-    name: 'Hizmet 2',
+    name: 'Sipariş Düzenleme',
     component: function TextExample() {
       return (
         <View className="gap-2">
           <Text variant="largeTitle" className="text-center mb-6">
-            Hizmet 2
-          </Text>
-          <View className="items-center">
-            <Icon name="archive-outline" size={60} color="rgb(110, 110, 110)" />
-          </View>
-          <Text variant="callout" className="text-center mb-5">
-            Hizmet 2'ye ulaşın.
-          </Text>
-
-          <Link href="/modal" asChild>
-            <Button disabled size='lg'>
-              <Text>Hizmete Git</Text>
-            </Button>
-          </Link>
-        </View>
-      );
-    },
-  },
-  {
-    name: 'Hizmet 3',
-    component: function TextExample() {
-      return (
-        <View className="gap-2">
-          <Text variant="largeTitle" className="text-center mb-6">
-            Hizmet 3
-          </Text>
-          <View className="items-center">
-            <Icon name="barcode" size={60} color="rgb(110, 110, 110)" />
-          </View>
-          <Text variant="callout" className="text-center mb-5">
-            Hizmet 3'e ulaşın.
-          </Text>
-
-          <Link href="/modal" asChild>
-            <Button disabled size='lg'>
-              <Text>Hizmete Git</Text>
-            </Button>
-          </Link>
-        </View>
-      );
-    },
-  },
-  {
-    name: 'Hizmet 4',
-    component: function TextExample() {
-      return (
-        <View className="gap-2">
-          <Text variant="largeTitle" className="text-center mb-6">
-            Hizmet 4
+            Sipariş Düzenleme
           </Text>
           <View className="items-center">
             <Icon name="book-open" size={60} color="rgb(110, 110, 110)" />
           </View>
           <Text variant="callout" className="text-center mb-5">
-            Hizmet 4'e ulaşın.
+            Mevcut siparişinizi düzenleyin.
           </Text>
 
-          <Link href="/modal" asChild>
-            <Button disabled size='lg'>
+          <Link href="/services/sipduz" asChild>
+            <Button size='lg'>
               <Text>Hizmete Git</Text>
             </Button>
           </Link>
@@ -206,18 +158,42 @@ const COMPONENTS: ComponentItem[] = [
     },
   },
   {
-    name: 'Hizmet 5',
+    name: 'Sipariş Görüntüleme',
     component: function TextExample() {
       return (
         <View className="gap-2">
           <Text variant="largeTitle" className="text-center mb-6">
-            Hizmet 5
+            Sipariş Görüntüleme
+          </Text>
+          <View className="items-center">
+            <Icon name="archive-outline" size={60} color="rgb(110, 110, 110)" />
+          </View>
+          <Text variant="callout" className="text-center mb-5">
+            Mevcut siparişlerinizi listeleyin.
+          </Text>
+
+          <Link href="/services/siplist" asChild>
+            <Button size='lg'>
+              <Text>Hizmete Git</Text>
+            </Button>
+          </Link>
+        </View>
+      );
+    },
+  },
+  {
+    name: 'Diğer Hizmetler',
+    component: function TextExample() {
+      return (
+        <View className="gap-2">
+          <Text variant="largeTitle" className="text-center mb-6">
+            Diğer Hizmetler
           </Text>
           <View className="items-center">
             <Icon name="bookshelf" size={60} color="rgb(110, 110, 110)" />
           </View>
           <Text variant="callout" className="text-center mb-5">
-            Hizmet 5'e ulaşın.
+            ...
           </Text>
 
           <Link href="/modal" asChild>

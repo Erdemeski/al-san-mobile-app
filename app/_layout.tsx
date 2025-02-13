@@ -12,6 +12,11 @@ import { useColorScheme, useInitialAndroidBarSync } from '~/lib/useColorScheme';
 import { NAV_THEME } from '~/theme';
 import { Provider } from 'react-redux';
 import store from "~/store/store";
+import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import { ActionSheetProvider } from '@expo/react-native-action-sheet';
+
+
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -33,17 +38,22 @@ export default function RootLayout() {
         />
         {/* WRAP YOUR APP WITH ANY ADDITIONAL PROVIDERS HERE */}
         {/* <ExampleProvider> */}
-
-        <NavThemeProvider value={NAV_THEME[colorScheme]}>
-          <Stack screenOptions={SCREEN_OPTIONS}>
-            <Stack.Screen name="index" /* options={INDEX_OPTIONS} */ options={{ headerShown: false }} />
-            <Stack.Screen name="login" options={LOGIN_OPTIONS} />
-            <Stack.Screen name="modal" options={MODAL_OPTIONS} />
-            <Stack.Screen name="home" options={{ headerShown: false }} />
-            <Stack.Screen name="services" options={{ headerShown: false }} />
-          </Stack>
-          {/* <Slot /> */}
-        </NavThemeProvider>
+        <GestureHandlerRootView style={{ flex: 1 }}>
+          <BottomSheetModalProvider>
+            <ActionSheetProvider>
+              <NavThemeProvider value={NAV_THEME[colorScheme]}>
+                <Stack screenOptions={SCREEN_OPTIONS}>
+                  <Stack.Screen name="index" /* options={INDEX_OPTIONS} */ options={{ headerShown: false }} />
+                  <Stack.Screen name="login" options={LOGIN_OPTIONS} />
+                  <Stack.Screen name="modal" options={MODAL_OPTIONS} />
+                  <Stack.Screen name="home" options={{ headerShown: false }} />
+                  <Stack.Screen name="services" options={{ headerShown: false }} />
+                </Stack>
+                {/* <Slot /> */}
+              </NavThemeProvider>
+            </ActionSheetProvider>
+          </BottomSheetModalProvider>
+        </GestureHandlerRootView>
       </Provider>
 
       {/* </ExampleProvider> */}
@@ -58,11 +68,11 @@ const SCREEN_OPTIONS = {
 } as const;
 
 /* const INDEX_OPTIONS = {
-  headerLargeTitle: true,
-  title: 'NativeWindUI',
+          headerLargeTitle: true,
+        title: 'NativeWindUI',
   headerRight: () => <SettingsIcon />,
 } as const;
- */
+        */
 const LOGIN_OPTIONS = {
   headerLargeTitle: true,
   title: 'SAP Giriş Ekranı',
