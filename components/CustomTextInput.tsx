@@ -18,9 +18,9 @@ const CustomTextInput = ({
 }) => {
     return (
         <View className="w-full mb-4">
-            {label && <Text className="text-gray-700 dark:text-gray-200 mb-1">{label}</Text>}
+            {label && <Text className="text-gray-700 dark:text-gray-200 mb-1 text-base">{label}</Text>}
             <TextInput
-                className={`flex-1 px-4 py-3 border rounded-xl text-base text-gray-900 dark:text-white bg-white dark:bg-gray-800 
+                className={`flex-1 px-4 py-4 border rounded-xl text-base text-gray-900 dark:text-white bg-white dark:bg-gray-800 
           focus:border-blue-500 dark:focus:border-blue-400 
           ${error ? 'border-red-500 dark:border-red-400' : 'border-gray-300 dark:border-gray-600'}`}
                 style={{ minWidth: '100%' }} // Ekranın tamamına yayılması için

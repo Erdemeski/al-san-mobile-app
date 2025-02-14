@@ -11,17 +11,19 @@ import {
     BackHandler,
     ImageBackground,
     StyleSheet,
+    TouchableOpacity,
+    Modal,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Button } from '~/components/nativewindui/Button';
 import { Text } from '~/components/nativewindui/Text';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import CustomTextInput from '~/components/CustomTextInput';
 import { useDispatch, useSelector } from 'react-redux';
 import { loginUser } from '~/store/authSlice';
 import { RootState } from "~/store/store";
 import { clearError } from '~/store/authSlice';
-import { Dropdown } from 'react-native-element-dropdown';
+import { Dropdown, MultiSelect } from 'react-native-element-dropdown';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import { DatePicker } from '~/components/nativewindui/DatePicker';
 import { Picker, PickerItem } from '~/components/nativewindui/Picker';
@@ -31,21 +33,56 @@ import { useColorScheme } from '~/lib/useColorScheme';
 import { useActionSheet } from '@expo/react-native-action-sheet';
 
 const data = [
-    { label: 'Option 1', value: '1' },
-    { label: 'Option 2', value: '2' },
-    { label: 'Option 3', value: '3' },
-    { label: 'Option 4', value: '4' },
-    { label: 'Option 5', value: '5' },
-    { label: 'Option 6', value: '6' },
-    { label: 'Option 7', value: '7' },
+    { label: 'Item 1 skdhljsglksjgls', value: '1' },
+    { label: 'Item 2sıduhgusdgoısdosgısogıosugıosdjgoısdjgsoıdpgjosıdjgıosdjgıosdjgpoısdgpıosdjgıosdjgıosdjgoısdgjıosdgjsoıdgjısodgjsodıgjsıdogjsdoıgjsdoıgjsdoıg', value: '2' },
+    { label: 'Item 3', value: '3' },
+    { label: 'Item 4', value: '4' },
+    { label: 'Item 5', value: '5' },
+    { label: 'Item 6', value: '6' },
+    { label: 'Item 7', value: '7' },
+    { label: 'Item 8', value: '8' },
+    { label: 'Item 9sıduhgusdgoısdosgısogıosugıosdjgoısdjgsoıdpgjosıdjgıosdjgıosdjgpoısdgpıosdjgıosdjgıosdjgoısdgjıosdgjsoıdgjısodgjsodıgjsıdogjsdoıgjsdoıgjsdoıg', value: '9' },
+    { label: 'Item 10sıduhgusdgoısdosgısogıosugıosdjgoısdjgsoıdpgjosıdjgıosdjgıosdjgpoısdgpıosdjgıosdjgıosdjgoısdgjıosdgjsoıdgjısodgjsodıgjsıdogjsdoıgjsdoıgjsdoıg', value: '10' },
+    { label: 'Item 11sıduhgusdgoısdosgısogıosugıosdjgoısdjgsoıdpgjosıdjgıosdjgıosdjgpoısdgpıosdjgıosdjgıosdjgoısdgjıosdgjsoıdgjısodgjsodıgjsıdogjsdoıgjsdoıgjsdoıg', value: '11' },
+    { label: 'Item 12sıduhgusdgoısdosgısogıosugıosdjgoısdjgsoıdpgjosıdjgıosdjgıosdjgpoısdgpıosdjgıosdjgıosdjgoısdgjıosdgjsoıdgjısodgjsodıgjsıdogjsdoıgjsdoıgjsdoıg', value: '12' },
+    { label: 'Item 13sıduhgusdgoısdosgısogıosugıosdjgoısdjgsoıdpgjosıdjgıosdjgıosdjgpoısdgpıosdjgıosdjgıosdjgoısdgjıosdgjsoıdgjısodgjsodıgjsıdogjsdoıgjsdoıgjsdoıg', value: '13' },
+    { label: 'Item 14sıduhgusdgoısdosgısogıosugıosdjgoısdjgsoıdpgjosıdjgıosdjgıosdjgpoısdgpıosdjgıosdjgıosdjgoısdgjıosdgjsoıdgjısodgjsodıgjsıdogjsdoıgjsdoıgjsdoıg', value: '14' },
+    { label: 'Item 15sıduhgusdgoısdosgısogıosugıosdjgoısdjgsoıdpgjosıdjgıosdjgıosdjgpoısdgpıosdjgıosdjgıosdjgoısdgjıosdgjsoıdgjısodgjsodıgjsıdogjsdoıgjsdoıgjsdoıg', value: '15' },
+    { label: 'Item 16sıduhgusdgoısdosgısogıosugıosdjgoısdjgsoıdpgjosıdjgıosdjgıosdjgpoısdgpıosdjgıosdjgıosdjgoısdgjıosdgjsoıdgjısodgjsodıgjsıdogjsdoıgjsdoıgjsdoıg', value: '16' },
+    { label: 'Item 17sıduhgusdgoısdosgısogıosugıosdjgoısdjgsoıdpgjosıdjgıosdjgıosdjgpoısdgpıosdjgıosdjgıosdjgoısdgjıosdgjsoıdgjısodgjsodıgjsıdogjsdoıgjsdoıgjsdoıg', value: '17' },
+    { label: 'Item 18sıduhgusdgoısdosgısogıosugıosdjgoısdjgsoıdpgjosıdjgıosdjgıosdjgpoısdgpıosdjgıosdjgıosdjgoısdgjıosdgjsoıdgjısodgjsodıgjsıdogjsdoıgjsdoıgjsdoıg', value: '18' },
+    { label: 'Item 19sıduhgusdgoısdosgısogıosugıosdjgoısdjgsoıdpgjosıdjgıosdjgıosdjgpoısdgpıosdjgıosdjgıosdjgoısdgjıosdgjsoıdgjısodgjsodıgjsıdogjsdoıgjsdoıgjsdoıg', value: '19' },
+    { label: 'Item 20sıduhgusdgoısdosgısogıosugıosdjgoısdjgsoıdpgjosıdjgıosdjgıosdjgpoısdgpıosdjgıosdjgıosdjgoısdgjıosdgjsoıdgjısodgjsodıgjsıdogjsdoıgjsdoıgjsdoıg', value: '20' },
 
 ];
+
+const siparisTurleri = [
+    { label: "Standart Sipariş (ZS01)", value: "ZS01", color: "black" },
+    { label: "Acil Sipariş (ZS02)", value: "ZS02", color: "black" },
+    { label: "Silobaslı Sipariş (ZS03)", value: "ZS03", color: "black" },
+    { label: "Lisanslı Depo Sip. (ZS04)", value: "ZS04", color: "black" },
+    { label: "İhracat Siparişi (ZS05)", value: "ZS05", color: "black" },
+    { label: "Transit Siparişi (ZS06)", value: "ZS06", color: "black" },
+    { label: "Bedelsiz Numune Sip. (ZS07)", value: "ZS07", color: "black" },
+    { label: "Tarım Siparişi (ZS08)", value: "ZS08", color: "black" },
+    { label: "İade Alacak Dekontu (ZC01)", value: "ZC01", color: "black" },
+    { label: "Alacak Dekontu (ZC02)", value: "ZC02", color: "black" },
+    { label: "Borç Dekontu (ZD01)", value: "ZD01", color: "black" },
+    { label: "İade Siparişi (ZR01)", value: "ZR01", color: "black" },
+    { label: "İadeli amb.çekişi (ZR02)", value: "ZR02", color: "black" },
+];
+
+const odemeKosullari = [
+    { label: "Hemen", value: "hemen", color: "black" },
+    { label: "Vadeli", value: "vadeli", color: "black" },
+];
+
 
 const ROOT_STYLE: ViewStyle = { flex: 1 };
 
 export default function SatSipScreen() {
     /*     const router = useRouter();
-     */
+    */
     const [username, setUsername] = React.useState('');
     const [password, setPassword] = React.useState('');
     const [error, setError] = React.useState<string | null>(null);
@@ -57,15 +94,19 @@ export default function SatSipScreen() {
     const errorMessage = useSelector((state: RootState) => state.auth.error);
     const [dropdownValue, setDropdownValue] = useState(null);
     const [isFocus, setIsFocus] = useState(false);
-    const [picker, setPicker] = React.useState('blue');
+    /*     const [sipTur, setSipTur] = React.useState('blue');
+    */
+    const [sipTur, setSipTur] = useState(siparisTurleri[0].value);
     const [date, setDate] = React.useState(new Date());
-    const { colors, isDarkColorScheme } = useColorScheme();
+
+    const [odemeKosulu, setOdemeKosulu] = useState(odemeKosullari[0].value);
 
     const bottomSheetModalRef = useSheetRef();
+    const { colors, isDarkColorScheme } = useColorScheme();
 
     /*     React.useEffect(() => {
-            bottomSheetModalRef.current?.present();
-        }, []);
+     bottomSheetModalRef.current?.present();
+     }, []);
      */
 
     const { showActionSheetWithOptions } = useActionSheet();
@@ -125,6 +166,9 @@ export default function SatSipScreen() {
             return () => backHandler.remove(); // Component unmount olduğunda event listener'ı kaldır
         }, []);
      */
+    const [selected, setSelected] = useState([]);
+    const multiSelectModalRef = useSheetRef();
+
     return (
         <SafeAreaView style={ROOT_STYLE} edges={['bottom', "left", "right"]}>
             <KeyboardAvoidingView
@@ -137,7 +181,7 @@ export default function SatSipScreen() {
                         contentContainerStyle={{ flexGrow: 1, paddingTop: 0, minHeight: "100%", marginTop: 0 }}
                         keyboardShouldPersistTaps="handled"
                     >
-                        <View className="mx-auto max-w-sm flex-1 justify-between gap-4 px-8 py-4">
+                        <View className="mx-auto max-w-sm flex-1 justify-between gap-4 px-8 pt-4">
                             <View className="flex justify-center items-center py-16">
                                 <Text variant="largeTitle" className="ios:text-left ios:font-black ios:text-3xl text-center font-bold">
                                     AL-SAN Meram Un
@@ -153,150 +197,147 @@ export default function SatSipScreen() {
                                 </Text>
                             </View>
                             <View className="w-full">
+
+                                <View className='py-4'>
+                                    <Text className="text-gray-700 dark:text-gray-200 mb-1">Sipariş Türü: </Text>
+                                    <Picker
+                                        selectedValue={sipTur}
+                                        onValueChange={(itemValue) => setSipTur(itemValue)}
+                                    >
+                                        {siparisTurleri.map((item, index) => (
+                                            <PickerItem
+                                                key={index}
+                                                label={item.label}
+                                                value={item.value}
+                                                color={item.color}
+                                            />
+                                        ))}
+                                    </Picker>
+                                </View>
+
                                 <CustomTextInput
-                                    label="Layer 1: "
+                                    label="Malı Teslim Alan: "
                                     value={username}
                                     onChangeText={setUsername}
-                                    placeholder="Input 1"
+                                    placeholder="Ad Soyad / Müş. No."
                                     error={error && !username ? error : undefined}
-                                    autoCapitalize="none"
                                 />
-                                <CustomTextInput
-                                    label="Layer 2: "
-                                    value={password}
-                                    onChangeText={setPassword}
-                                    placeholder="Input 2"
-                                    error={error && !password ? error : undefined}
-                                    autoCapitalize="none"
-                                />
-                                <View className='py-5'>
-
+                                <View className='py-0'>
+                                    <Text className="text-gray-700 dark:text-gray-200 mb-1">İstenilen Teslim Tarihi: </Text>
                                     <DatePicker
                                         value={date}
-                                        mode="datetime"
+                                        mode="date"
+                                        materialDateClassName=''
                                         onChange={(ev) => {
                                             setDate(new Date(ev.nativeEvent.timestamp));
                                         }}
                                     />
                                 </View>
-                                <View className='py-5'>
-
-                                    <Picker selectedValue={picker} onValueChange={(itemValue) => setPicker(itemValue)}>
-                                        <PickerItem
-                                            label="Red"
-                                            value="red"
-                                            color="red"
-                                        />
-                                        <PickerItem
-                                            label="Blue"
-                                            value="blue"
-                                            color="blue"
-                                        />
+                                <View className='py-4'>
+                                    <Text className="text-gray-700 dark:text-gray-200 mb-1">Ödeme Koşulu: </Text>
+                                    <Picker
+                                        selectedValue={odemeKosulu}
+                                        onValueChange={(itemValue) => setOdemeKosulu(itemValue)}
+                                    >
+                                        {odemeKosullari.map((item, index) => (
+                                            <PickerItem
+                                                key={index}
+                                                label={item.label}
+                                                value={item.value}
+                                                color={item.color}
+                                            />
+                                        ))}
                                     </Picker>
                                 </View>
-
-                                <Dropdown
-                                    style={[styles.dropdown, styles.container, isFocus && { borderColor: 'blue' }]}
-                                    placeholderStyle={styles.placeholderStyle}
-                                    selectedTextStyle={styles.selectedTextStyle}
-                                    inputSearchStyle={styles.inputSearchStyle}
-                                    iconStyle={styles.iconStyle}
-                                    data={data}
-/*                                     search
- */                                    maxHeight={300}
-                                    labelField="label"
-                                    valueField="value"
-                                    placeholder={!isFocus ? 'Select item' : '...'}
-                                    searchPlaceholder="Search..."
-                                    value={dropdownValue}
-                                    onFocus={() => setIsFocus(true)}
-                                    onBlur={() => setIsFocus(false)}
-                                    onChange={item => {
-                                        setDropdownValue(item.value);
-                                        setIsFocus(false);
-                                    }}
-/*                                     renderLeftIcon={() => (
-                                        <AntDesign
-                                            style={styles.icon}
-                                            color={isFocus ? 'blue' : 'black'}
-                                            name="Safety"
-                                            size={20}
-                                        />
-                                    )}
- */                                />
-                                <Dropdown
-                                    style={[styles.dropdown, styles.container, isFocus && { borderColor: 'blue' }]}
-                                    placeholderStyle={styles.placeholderStyle}
-                                    selectedTextStyle={styles.selectedTextStyle}
-                                    inputSearchStyle={styles.inputSearchStyle}
-                                    iconStyle={styles.iconStyle}
-                                    data={data}
-/*                                     search
- */                                    maxHeight={300}
-                                    labelField="label"
-                                    valueField="value"
-                                    placeholder={!isFocus ? 'Select item' : '...'}
-                                    searchPlaceholder="Search..."
-                                    value={dropdownValue}
-                                    onFocus={() => setIsFocus(true)}
-                                    onBlur={() => setIsFocus(false)}
-                                    onChange={item => {
-                                        setDropdownValue(item.value);
-                                        setIsFocus(false);
-                                    }}
-                                    renderLeftIcon={() => (
-                                        <AntDesign
-                                            style={styles.icon}
-                                            color={isFocus ? 'blue' : 'black'}
-                                            name="Safety"
-                                            size={20}
-                                        />
-                                    )}
-                                />
-                                <CustomTextInput
-                                    label="Layer 2: "
-                                    value={password}
-                                    onChangeText={setPassword}
-                                    placeholder="Input 2"
-                                    error={error && !password ? error : undefined}
-                                    autoCapitalize="none"
-                                />
-                                <CustomTextInput
-                                    label="Layer 2: "
-                                    value={password}
-                                    onChangeText={setPassword}
-                                    placeholder="Input 2"
-                                    error={error && !password ? error : undefined}
-                                    autoCapitalize="none"
-                                />
-                                <CustomTextInput
-                                    label="Layer 2: "
-                                    value={password}
-                                    onChangeText={setPassword}
-                                    placeholder="Input 2"
-                                    error={error && !password ? error : undefined}
-                                    autoCapitalize="none"
-                                />
                             </View>
-                            <Button
-                                variant='secondary'
-                                className={`${isDarkColorScheme && Platform.OS === 'ios' ? 'text-white' : 'text-black'}`}
-                                size={Platform.select({ ios: 'lg', default: 'md' })}
-                                onPress={() => bottomSheetModalRef.current?.present()}
-                            >
-                                <Text variant="body">Sipariş ayrıntılarını görüntüle</Text>
-                            </Button>
+                            <View className='h-0.5 min-w-full bg-gray-300 mb-2'></View>
+                            <View>
+                                <Text className="text-gray-700 dark:text-gray-200 mb-1">Kalemler: </Text>
+                                <Button
+                                    variant='secondary'
+                                    className={`${isDarkColorScheme && Platform.OS === 'ios' ? 'text-white' : 'text-black'} ${isDarkColorScheme ? 'bg-[#1f2937] border-gray-600' : 'bg-white border-gray-300'}`}
+                                    size={Platform.select({ ios: 'lg', default: 'lg' })}
+                                    onPress={() => multiSelectModalRef.current?.present()}
+                                >
+                                    <Text variant="body" className='py-1'>Kalemleri Seçin</Text>
+                                </Button>
+                            </View>
+                            <Sheet ref={multiSelectModalRef} snapPoints={[750]}>
+                                <BottomSheetScrollView>
+                                    <View
+                                        className='mx-auto min-w-full min-h-[80vh] flex-1 justify-between gap-4 px-8 mt-8 pb-14'>
+                                        <MultiSelect
+                                            style={{
+                                                height: 55,
+                                                borderRadius: 12,
+                                                backgroundColor: isDarkColorScheme ? '#1f2937' : colors.root,
+                                                borderWidth: 1,
+                                                marginBottom: 10,
+                                                borderColor: isDarkColorScheme ? '#4b5563' : '#d1d5db',
+                                            }}
+                                            placeholderStyle={multi.placeholderStyle}
+                                            selectedTextStyle={{
+                                                fontSize: 14,
+                                                color: isDarkColorScheme ? '#fff' : colors.foreground,
+                                            }}
+                                            inputSearchStyle={multi.inputSearchStyle}
+                                            iconStyle={multi.iconStyle}
+                                            search
+                                            data={data}
+                                            labelField="label"
+                                            valueField="value"
+                                            placeholder="Kalemleri Seçin"
+                                            searchPlaceholder="Kalem Ara..."
+                                            value={selected}
+                                            onChange={item => {
+                                                setSelected(item);
+                                            }}
+                                            renderLeftIcon={() => (
+                                                <AntDesign
+                                                    style={multi.icon}
+                                                    color={`${isDarkColorScheme ? "lightgray" : "black"}`}
+                                                    name="plussquareo"
+                                                    size={20}
+                                                />
+                                            )}
+                                            selectedStyle={{
+                                                borderRadius: 12,
+                                                backgroundColor: isDarkColorScheme ? '#1f2937' : colors.root,
+                                                paddingHorizontal: 22,
+                                                animationDelay: 'smooth',
+                                            }}
+                                        />
+                                    </View>
+                                </BottomSheetScrollView>
+                            </Sheet>
+
+                            <View className='min-h-screen bg-white dark:bg-gray-500 rounded-xl'>
+                                <Text className='flex text-center pt-96'>
+                                    Her bir kalem için ayrıntılar...
+                                </Text>
+                            </View>
+
+                            <View className='mt-5'>
+                                <Button
+                                    variant='secondary'
+                                    className={`${isDarkColorScheme && Platform.OS === 'ios' ? 'text-white' : 'text-black'}`}
+                                    size={Platform.select({ ios: 'lg', default: 'md' })}
+                                    onPress={() => bottomSheetModalRef.current?.present()}
+                                >
+                                    <Text variant="body">Sipariş ayrıntılarını görüntüle</Text>
+                                </Button>
+                            </View>
                             <Sheet ref={bottomSheetModalRef} snapPoints={[200]}>
                                 <BottomSheetView className="flex-1 items-center justify-center pb-8">
                                     <Text className="text-foreground">Sipariş bilgileri henüz girilmedi!</Text>
                                 </BottomSheetView>
                             </Sheet>
                             {errorMessage && (<View>
-                                <Text className="text-red-500 text-center mt-2">{errorMessage}</Text>
+                                <Text className="text-red-500 text-center my-2">{errorMessage}</Text>
                             </View>
                             )}
                             <View className="gap-4 mb-40">
-                                <Button size={Platform.select({ ios: 'lg', default: 'md' })} onPress={onAction} >
+                                <Button size={Platform.select({ ios: 'lg', default: 'lg' })} onPress={onAction} >
                                     <Text variant="body">Oluştur</Text>
                                 </Button>
                             </View>
@@ -347,5 +388,28 @@ const styles = StyleSheet.create({
     inputSearchStyle: {
         height: 40,
         fontSize: 16,
+    },
+});
+
+
+const multi = StyleSheet.create({
+    /*     container: { paddingVertical: 16 },
+     */
+    placeholderStyle: {
+        fontSize: 16,
+        color: '#9CA3AF',
+    },
+    iconStyle: {
+        width: 20,
+        height: 20,
+        marginRight: 10,
+    },
+    inputSearchStyle: {
+        height: 40,
+        fontSize: 16,
+    },
+    icon: {
+        marginRight: 5,
+        marginLeft: 10,
     },
 });

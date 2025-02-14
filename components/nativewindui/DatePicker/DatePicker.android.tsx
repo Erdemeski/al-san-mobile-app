@@ -5,6 +5,7 @@ import { View } from 'react-native';
 import { Button } from '~/components/nativewindui/Button';
 import { Text } from '~/components/nativewindui/Text';
 import { cn } from '~/lib/cn';
+import { useColorScheme } from '~/lib/useColorScheme';
 
 export function DatePicker(
   props: React.ComponentProps<typeof DateTimePicker> & {
@@ -28,6 +29,8 @@ export function DatePicker(
     });
   };
 
+  const { colors, isDarkColorScheme } = useColorScheme();
+
   return (
     <View className="flex-row gap-2.5">
       {props.mode.includes('date') && (
@@ -36,9 +39,9 @@ export function DatePicker(
             variant="plain"
             androidRootClassName="rounded-none"
             onPress={show('date')}
-            className="border-foreground/30 rounded border px-2.5 py-3 active:opacity-80">
-            <Text className="py-px text-sm">
-              {new Intl.DateTimeFormat('en-US', {
+            className={`border-foreground/30 rounded-xl border px-2.5 py-4 active:opacity-80 min-w-full ${isDarkColorScheme ? 'bg-gray-800 text-white' : 'border-gray-300 bg-white text-[${colors.foreground}]'}`}>
+            <Text className="py-px text-base font-normal">
+              {new Intl.DateTimeFormat('tr-TR', {
                 dateStyle: 'medium',
               }).format(props.value)}
             </Text>
@@ -46,7 +49,7 @@ export function DatePicker(
           <View
             className={cn('bg-card absolute left-2 top-0 px-1', props.materialDateLabelClassName)}>
             <Text variant="caption2" className="text-[10px] opacity-60">
-              {props.materialDateLabel ?? 'Date'}
+              {props.materialDateLabel ?? 'Tarih'}
             </Text>
           </View>
         </View>
@@ -59,7 +62,7 @@ export function DatePicker(
             onPress={show('time')}
             className="border-foreground/30 rounded border px-2.5 py-3 active:opacity-80">
             <Text className="py-px text-sm">
-              {new Intl.DateTimeFormat('en-US', {
+              {new Intl.DateTimeFormat('tr-TR', {
                 timeStyle: 'short',
               }).format(props.value)}
             </Text>
@@ -67,7 +70,7 @@ export function DatePicker(
           <View
             className={cn('bg-card absolute left-2 top-0 px-1', props.materialTimeLabelClassName)}>
             <Text variant="caption2" className="text-[10px] opacity-60">
-              {props.materialTimeLabel ?? 'Time'}
+              {props.materialTimeLabel ?? 'Saat'}
             </Text>
           </View>
         </View>

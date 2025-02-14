@@ -149,7 +149,7 @@ const COMPONENTS: ComponentItem[] = [
           </Text>
 
           <Link href="/services/sipduz" asChild>
-            <Button size='lg'>
+            <Button disabled size='lg'>
               <Text>Hizmete Git</Text>
             </Button>
           </Link>
@@ -173,7 +173,7 @@ const COMPONENTS: ComponentItem[] = [
           </Text>
 
           <Link href="/services/siplist" asChild>
-            <Button size='lg'>
+            <Button disabled size='lg'>
               <Text>Hizmete Git</Text>
             </Button>
           </Link>

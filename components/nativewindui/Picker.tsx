@@ -12,21 +12,33 @@ export function Picker<T>({
   className,
   ...props
 }: React.ComponentPropsWithoutRef<typeof RNPicker<T>>) {
-  const { colors } = useColorScheme();
+  const { colors, isDarkColorScheme } = useColorScheme();
+
   return (
     <View
       className={cn(
-        'ios:shadow-sm ios:shadow-black/5 border-background bg-background rounded-md border',
+        'ios:shadow-sm ios:shadow-black/5 border-background bg-background rounded-xl border border-gray-300 dark:border-gray-600',
         className
-      )}>
+      )}
+      style={{
+        paddingHorizontal: 0,
+        paddingVertical: 0,
+        backgroundColor: isDarkColorScheme ? '#1f2937' : colors.root,
+
+      }}>
       <RNPicker
         mode={mode}
-        style={
-          style ?? {
-            backgroundColor: colors.root,
-            borderRadius: 8,
-          }
-        }
+        style={[
+          {
+            color: isDarkColorScheme ? '#fff' : colors.foreground,
+            borderRadius: 12, // Daha yumuşak köşeler
+            borderWidth: 1, // Kenarlık ekleme
+            borderColor: isDarkColorScheme ? '#4b5563' : '#d1d5db', // Dark/Light mode'a uygun border
+            paddingHorizontal: 10,
+            paddingVertical: 0,
+          },
+          style, // Eğer dışarıdan ekstra style verilirse, onu da uygula
+        ]}
         dropdownIconColor={dropdownIconColor ?? colors.foreground}
         dropdownIconRippleColor={dropdownIconRippleColor ?? colors.foreground}
         {...props}
