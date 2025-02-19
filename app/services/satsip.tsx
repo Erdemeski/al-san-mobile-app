@@ -13,6 +13,7 @@ import {
     StyleSheet,
     TouchableOpacity,
     Modal,
+    TextInput,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Button } from '~/components/nativewindui/Button';
@@ -33,26 +34,26 @@ import { useColorScheme } from '~/lib/useColorScheme';
 import { useActionSheet } from '@expo/react-native-action-sheet';
 
 const data = [
-    { label: 'Item 1 skdhljsglksjgls', value: '1' },
-    { label: 'Item 2sıduhgusdgoısdosgısogıosugıosdjgoısdjgsoıdpgjosıdjgıosdjgıosdjgpoısdgpıosdjgıosdjgıosdjgoısdgjıosdgjsoıdgjısodgjsodıgjsıdogjsdoıgjsdoıgjsdoıg', value: '2' },
+    { label: 'Item 1', value: '1' },
+    { label: 'Item 2', value: '2' },
     { label: 'Item 3', value: '3' },
     { label: 'Item 4', value: '4' },
     { label: 'Item 5', value: '5' },
     { label: 'Item 6', value: '6' },
     { label: 'Item 7', value: '7' },
     { label: 'Item 8', value: '8' },
-    { label: 'Item 9sıduhgusdgoısdosgısogıosugıosdjgoısdjgsoıdpgjosıdjgıosdjgıosdjgpoısdgpıosdjgıosdjgıosdjgoısdgjıosdgjsoıdgjısodgjsodıgjsıdogjsdoıgjsdoıgjsdoıg', value: '9' },
-    { label: 'Item 10sıduhgusdgoısdosgısogıosugıosdjgoısdjgsoıdpgjosıdjgıosdjgıosdjgpoısdgpıosdjgıosdjgıosdjgoısdgjıosdgjsoıdgjısodgjsodıgjsıdogjsdoıgjsdoıgjsdoıg', value: '10' },
-    { label: 'Item 11sıduhgusdgoısdosgısogıosugıosdjgoısdjgsoıdpgjosıdjgıosdjgıosdjgpoısdgpıosdjgıosdjgıosdjgoısdgjıosdgjsoıdgjısodgjsodıgjsıdogjsdoıgjsdoıgjsdoıg', value: '11' },
-    { label: 'Item 12sıduhgusdgoısdosgısogıosugıosdjgoısdjgsoıdpgjosıdjgıosdjgıosdjgpoısdgpıosdjgıosdjgıosdjgoısdgjıosdgjsoıdgjısodgjsodıgjsıdogjsdoıgjsdoıgjsdoıg', value: '12' },
-    { label: 'Item 13sıduhgusdgoısdosgısogıosugıosdjgoısdjgsoıdpgjosıdjgıosdjgıosdjgpoısdgpıosdjgıosdjgıosdjgoısdgjıosdgjsoıdgjısodgjsodıgjsıdogjsdoıgjsdoıgjsdoıg', value: '13' },
-    { label: 'Item 14sıduhgusdgoısdosgısogıosugıosdjgoısdjgsoıdpgjosıdjgıosdjgıosdjgpoısdgpıosdjgıosdjgıosdjgoısdgjıosdgjsoıdgjısodgjsodıgjsıdogjsdoıgjsdoıgjsdoıg', value: '14' },
-    { label: 'Item 15sıduhgusdgoısdosgısogıosugıosdjgoısdjgsoıdpgjosıdjgıosdjgıosdjgpoısdgpıosdjgıosdjgıosdjgoısdgjıosdgjsoıdgjısodgjsodıgjsıdogjsdoıgjsdoıgjsdoıg', value: '15' },
-    { label: 'Item 16sıduhgusdgoısdosgısogıosugıosdjgoısdjgsoıdpgjosıdjgıosdjgıosdjgpoısdgpıosdjgıosdjgıosdjgoısdgjıosdgjsoıdgjısodgjsodıgjsıdogjsdoıgjsdoıgjsdoıg', value: '16' },
-    { label: 'Item 17sıduhgusdgoısdosgısogıosugıosdjgoısdjgsoıdpgjosıdjgıosdjgıosdjgpoısdgpıosdjgıosdjgıosdjgoısdgjıosdgjsoıdgjısodgjsodıgjsıdogjsdoıgjsdoıgjsdoıg', value: '17' },
-    { label: 'Item 18sıduhgusdgoısdosgısogıosugıosdjgoısdjgsoıdpgjosıdjgıosdjgıosdjgpoısdgpıosdjgıosdjgıosdjgoısdgjıosdgjsoıdgjısodgjsodıgjsıdogjsdoıgjsdoıgjsdoıg', value: '18' },
-    { label: 'Item 19sıduhgusdgoısdosgısogıosugıosdjgoısdjgsoıdpgjosıdjgıosdjgıosdjgpoısdgpıosdjgıosdjgıosdjgoısdgjıosdgjsoıdgjısodgjsodıgjsıdogjsdoıgjsdoıgjsdoıg', value: '19' },
-    { label: 'Item 20sıduhgusdgoısdosgısogıosugıosdjgoısdjgsoıdpgjosıdjgıosdjgıosdjgpoısdgpıosdjgıosdjgıosdjgoısdgjıosdgjsoıdgjısodgjsodıgjsıdogjsdoıgjsdoıgjsdoıg', value: '20' },
+    { label: 'Item 9', value: '9' },
+    { label: 'Item 10', value: '10' },
+    { label: 'Item 11', value: '11' },
+    { label: 'Item 12', value: '12' },
+    { label: 'Item 13', value: '13' },
+    { label: 'Item 14', value: '14' },
+    { label: 'Item 15', value: '15' },
+    { label: 'Item 16', value: '16' },
+    { label: 'Item 17', value: '17' },
+    { label: 'Item 18', value: '18' },
+    { label: 'Item 19', value: '19' },
+    { label: 'Item 20', value: '20' },
 
 ];
 
@@ -122,14 +123,14 @@ export default function SatSipScreen() {
 /*             destructiveButtonIndex
  */        }, (selectedIndex: number) => {
             switch (selectedIndex) {
-                case 1:
-                    // Save
+                case 0:
+                    router.replace('/home');
                     break;
 
                 /*                 case destructiveButtonIndex:
-                                    // Delete
-                                    break;
-                 */
+                // Delete
+                break;
+                */
                 case cancelButtonIndex:
                 // Canceled
             }
@@ -168,7 +169,40 @@ export default function SatSipScreen() {
      */
     const [selected, setSelected] = useState([]);
     const multiSelectModalRef = useSheetRef();
+    console.log(selected);
 
+    const [formData, setFormData] = useState({/*  selectedItems: {}  */ });
+    console.log(formData);
+
+    const handleSelectionChange = (items) => {
+        // Eğer items string olarak geliyorsa, objeye dönüştür
+        const selectedItems = items.map(item => {
+            const foundItem = data.find(dataItem => dataItem.value === item);
+            return foundItem ? foundItem : { label: item, value: item };
+        });
+        setSelected(selectedItems);
+
+        // formData'yı güncelle
+        const newFormData = {};
+        selectedItems.forEach(item => {
+            if (!formData[item.value]) {
+                newFormData[item.value] = { label: item.label, quantity: '' };
+            } else {
+                newFormData[item.value] = formData[item.value];
+            }
+        });
+        setFormData(newFormData);
+    };
+
+    const handleQuantityChange = (value, itemValue) => {
+        setFormData(prevFormData => ({
+            ...prevFormData,
+            [itemValue]: {
+                ...prevFormData[itemValue],
+                quantity: value,
+            },
+        }));
+    };
     return (
         <SafeAreaView style={ROOT_STYLE} edges={['bottom', "left", "right"]}>
             <KeyboardAvoidingView
@@ -251,7 +285,7 @@ export default function SatSipScreen() {
                                 </View>
                             </View>
                             <View className='h-0.5 min-w-full bg-gray-300 mb-2'></View>
-                            <View>
+                            <View className='mb-5'>
                                 <Text className="text-gray-700 dark:text-gray-200 mb-1">Kalemler: </Text>
                                 <Button
                                     variant='secondary'
@@ -288,10 +322,8 @@ export default function SatSipScreen() {
                                             valueField="value"
                                             placeholder="Kalemleri Seçin"
                                             searchPlaceholder="Kalem Ara..."
-                                            value={selected}
-                                            onChange={item => {
-                                                setSelected(item);
-                                            }}
+                                            value={selected.map(item => item.value)}
+                                            onChange={handleSelectionChange}
                                             renderLeftIcon={() => (
                                                 <AntDesign
                                                     style={multi.icon}
@@ -311,12 +343,36 @@ export default function SatSipScreen() {
                                 </BottomSheetScrollView>
                             </Sheet>
 
-                            <View className='min-h-screen bg-white dark:bg-gray-500 rounded-xl'>
-                                <Text className='flex text-center pt-96'>
-                                    Her bir kalem için ayrıntılar...
-                                </Text>
-                            </View>
-
+                            {selected.length === 0 ? (
+                                <>
+                                    <View className='min-h-40 bg-white dark:bg-gray-500 rounded-xl justify-center'>
+                                        <View>
+                                            <Text className='flex text-center'>
+                                                Henüz kalem seçilmedi!
+                                            </Text>
+                                        </View>
+                                    </View>
+                                </>
+                            ) : (
+                                <>
+                                    <Text variant='title3' className="text-gray-700 dark:text-gray-300 flex text-center font-semibold">Kalem Ayrıntıları</Text>
+                                    {selected.map(item => (
+                                        <View key={item.value} className='flex flex-col min-h-32 bg-white dark:bg-gray-500 rounded-xl justify-center px-5 pb-5 border border-gray-300 dark:border-gray-500 shadow-md'>
+                                            <Text variant='heading' className='flex text-center mb-5'>{item.label}</Text>
+                                            <CustomTextInput
+                                                style='min-h-14 mb-3'
+                                                label="Satış Miktarı: "
+                                                value={formData[item.value]?.quantity || ''}
+                                                onChangeText={(text) => handleQuantityChange(text, item.value)}
+                                                keyboardType="numeric"
+                                                placeholder="Adet"
+                                            /*                                             error={error && !username ? error : undefined}
+                                            */
+                                            />
+                                        </View>
+                                    ))}
+                                </>
+                            )}
                             <View className='mt-5'>
                                 <Button
                                     variant='secondary'
@@ -327,10 +383,28 @@ export default function SatSipScreen() {
                                     <Text variant="body">Sipariş ayrıntılarını görüntüle</Text>
                                 </Button>
                             </View>
-                            <Sheet ref={bottomSheetModalRef} snapPoints={[200]}>
-                                <BottomSheetView className="flex-1 items-center justify-center pb-8">
-                                    <Text className="text-foreground">Sipariş bilgileri henüz girilmedi!</Text>
-                                </BottomSheetView>
+                            <Sheet ref={bottomSheetModalRef} snapPoints={[500]}>
+                                {Object.keys(formData).length > 0 && Object.values(formData).every(item => item.quantity !== "") ? (
+                                    <BottomSheetScrollView>
+                                        {/* className='mx-auto min-w-full min-h-[80vh] flex-1 justify-between gap-4 px-8 mt-8 pb-14' */}
+                                        <View className="mx-auto min-w-full min-h-[40vh] flex-1 items-center justify-center pb-8">
+                                            <Text variant='title1' className="text-gray-700 dark:text-gray-300 flex text-center font-semibold mb-5">
+                                                Sipariş Özeti
+                                            </Text>
+                                            <Text className="text-foreground mb-10">
+                                                {Object.entries(formData).map(([key, value]) => (
+                                                    <Text key={key} className='mb-5' variant='subhead'>
+                                                        {value.label}: <Text variant='heading'>{value.quantity}{" adet\n"}</Text>
+                                                    </Text>
+                                                ))}
+                                            </Text>
+                                        </View>
+                                    </BottomSheetScrollView>
+                                ) : (
+                                    <BottomSheetView className="flex-1 items-center justify-center pb-8 mx-4">
+                                        <Text className="text-foreground">Sipariş bilgileri henüz tamamlanmadı, lütfen kalem detaylarını doldurun!</Text>
+                                    </BottomSheetView>
+                                )}
                             </Sheet>
                             {errorMessage && (<View>
                                 <Text className="text-red-500 text-center my-2">{errorMessage}</Text>
@@ -342,10 +416,10 @@ export default function SatSipScreen() {
                                 </Button>
                             </View>
                         </View>
-                    </ScrollView>
-                </TouchableWithoutFeedback>
-            </KeyboardAvoidingView>
-        </SafeAreaView>
+                    </ScrollView >
+                </TouchableWithoutFeedback >
+            </KeyboardAvoidingView >
+        </SafeAreaView >
     );
 }
 

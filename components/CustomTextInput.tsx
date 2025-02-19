@@ -1,6 +1,7 @@
 import { TextInput, Text, View } from 'react-native';
 
 const CustomTextInput = ({
+    style,
     label,
     error,
     value,
@@ -9,6 +10,7 @@ const CustomTextInput = ({
     secureTextEntry = false,
     ...props
 }: {
+    style?: string,
     label?: string;
     error?: string;
     value: string;
@@ -22,7 +24,8 @@ const CustomTextInput = ({
             <TextInput
                 className={`flex-1 px-4 py-4 border rounded-xl text-base text-gray-900 dark:text-white bg-white dark:bg-gray-800 
           focus:border-blue-500 dark:focus:border-blue-400 
-          ${error ? 'border-red-500 dark:border-red-400' : 'border-gray-300 dark:border-gray-600'}`}
+          ${error ? 'border-red-500 dark:border-red-400' : 'border-gray-300 dark:border-gray-600'}
+          ${style && style}`}
                 style={{ minWidth: '100%' }} // Ekranın tamamına yayılması için
                 placeholderTextColor="#9CA3AF"
                 placeholder={placeholder}
