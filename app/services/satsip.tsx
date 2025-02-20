@@ -34,27 +34,26 @@ import { useColorScheme } from '~/lib/useColorScheme';
 import { useActionSheet } from '@expo/react-native-action-sheet';
 
 const data = [
-    { label: 'Item 1', value: '1' },
-    { label: 'Item 2', value: '2' },
-    { label: 'Item 3', value: '3' },
-    { label: 'Item 4', value: '4' },
-    { label: 'Item 5', value: '5' },
-    { label: 'Item 6', value: '6' },
-    { label: 'Item 7', value: '7' },
-    { label: 'Item 8', value: '8' },
-    { label: 'Item 9', value: '9' },
-    { label: 'Item 10', value: '10' },
-    { label: 'Item 11', value: '11' },
-    { label: 'Item 12', value: '12' },
-    { label: 'Item 13', value: '13' },
-    { label: 'Item 14', value: '14' },
-    { label: 'Item 15', value: '15' },
-    { label: 'Item 16', value: '16' },
-    { label: 'Item 17', value: '17' },
-    { label: 'Item 18', value: '18' },
-    { label: 'Item 19', value: '19' },
-    { label: 'Item 20', value: '20' },
-
+    { label: 'Item 1', value: '1', unit: 'ADT', price: '10' },
+    { label: 'Item 2', value: '2', unit: 'ADT', price: '12.5' },
+    { label: 'Item 3', value: '3', unit: 'ADT', price: '15.7' },
+    { label: 'Item 4', value: '4', unit: 'TON', price: '12000' },
+    { label: 'Item 5', value: '5', unit: 'TON', price: '11500' },
+    { label: 'Item 6', value: '6', unit: 'ADT', price: '50' },
+    { label: 'Item 7', value: '7', unit: 'TON', price: '7000' },
+    { label: 'Item 8', value: '8', unit: 'ADT', price: '630' },
+    { label: 'Item 9', value: '9', unit: 'ADT', price: '90' },
+    { label: 'Item 10', value: '10', unit: 'ADT', price: '5' },
+    { label: 'Item 11', value: '11', unit: 'ADT', price: '213' },
+    { label: 'Item 12', value: '12', unit: 'TON', price: '17041' },
+    { label: 'Item 13', value: '13', unit: 'TON', price: '27010' },
+    { label: 'Item 14', value: '14', unit: 'TON', price: '19010' },
+    { label: 'Item 15', value: '15', unit: 'ADT', price: '190' },
+    { label: 'Item 16', value: '16', unit: 'ADT', price: '430.4' },
+    { label: 'Item 17', value: '17', unit: 'ADT', price: '110' },
+    { label: 'Item 18', value: '18', unit: 'ADT', price: '130.9' },
+    { label: 'Item 19', value: '19', unit: 'TON', price: '7840.3' },
+    { label: 'Item 20', value: '20', unit: 'ADT', price: '100' },
 ];
 
 const siparisTurleri = [
@@ -84,7 +83,8 @@ const ROOT_STYLE: ViewStyle = { flex: 1 };
 export default function SatSipScreen() {
     /*     const router = useRouter();
     */
-    const [username, setUsername] = React.useState('');
+    const [sipVerAd, setSipVerAd] = React.useState('');
+    const [sipTeslimAd, setSipTeslimAd] = React.useState('');
     const [password, setPassword] = React.useState('');
     const [error, setError] = React.useState<string | null>(null);
     const dispatch = useDispatch();
@@ -124,7 +124,7 @@ export default function SatSipScreen() {
  */        }, (selectedIndex: number) => {
             switch (selectedIndex) {
                 case 0:
-                    router.replace('/home');
+                    router.replace('/success');
                     break;
 
                 /*                 case destructiveButtonIndex:
@@ -173,6 +173,8 @@ export default function SatSipScreen() {
 
     const [formData, setFormData] = useState({/*  selectedItems: {}  */ });
     console.log(formData);
+    const [totalPrice, setTotalPrice] = useState(0);
+
 
     const handleSelectionChange = (items) => {
         // Eğer items string olarak geliyorsa, objeye dönüştür
@@ -186,7 +188,13 @@ export default function SatSipScreen() {
         const newFormData = {};
         selectedItems.forEach(item => {
             if (!formData[item.value]) {
-                newFormData[item.value] = { label: item.label, quantity: '' };
+                newFormData[item.value] = {
+                    label: item.label,
+                    price: parseFloat(item.price),  // Price'ı sayıya çevir
+                    unit: item.unit,
+                    quantity: '',
+                    subtotal: 0 // Başlangıçta 0 olacak
+                };
             } else {
                 newFormData[item.value] = formData[item.value];
             }
@@ -195,14 +203,30 @@ export default function SatSipScreen() {
     };
 
     const handleQuantityChange = (value, itemValue) => {
-        setFormData(prevFormData => ({
-            ...prevFormData,
-            [itemValue]: {
-                ...prevFormData[itemValue],
-                quantity: value,
-            },
-        }));
+        const quantity = parseFloat(value) || 0; // Sayıya çevir, geçersizse 0 yap
+        setFormData(prevFormData => {
+            const subtotal = parseFloat((prevFormData[itemValue].price * quantity).toFixed(2)); // 2 ondalık basamağa yuvarla
+
+            const updatedData = {
+                ...prevFormData,
+                [itemValue]: {
+                    ...prevFormData[itemValue],
+                    quantity,
+                    subtotal
+                }
+            };
+
+            // Toplam fiyatı güncelle (toplam fiyatı da yuvarlayalım)
+            const totalPrice = parseFloat(
+                Object.values(updatedData).reduce((sum, item) => sum + item.subtotal, 0).toFixed(2)
+            );
+
+            setTotalPrice(totalPrice); // Yeni toplam fiyatı state'e at
+
+            return updatedData;
+        });
     };
+
     return (
         <SafeAreaView style={ROOT_STYLE} edges={['bottom', "left", "right"]}>
             <KeyboardAvoidingView
@@ -250,12 +274,20 @@ export default function SatSipScreen() {
                                 </View>
 
                                 <CustomTextInput
-                                    label="Malı Teslim Alan: "
-                                    value={username}
-                                    onChangeText={setUsername}
+                                    label="Sipariş Veren: "
+                                    value={sipVerAd}
+                                    onChangeText={setSipVerAd}
                                     placeholder="Ad Soyad / Müş. No."
-                                    error={error && !username ? error : undefined}
+                                    error={error && !sipVerAd ? error : undefined}
                                 />
+                                <CustomTextInput
+                                    label="Malı Teslim Alan: "
+                                    value={sipTeslimAd}
+                                    onChangeText={setSipTeslimAd}
+                                    placeholder="Ad Soyad / Müş. No."
+                                    error={error && !sipTeslimAd ? error : undefined}
+                                />
+
                                 <View className='py-0'>
                                     <Text className="text-gray-700 dark:text-gray-200 mb-1">İstenilen Teslim Tarihi: </Text>
                                     <DatePicker
@@ -284,7 +316,7 @@ export default function SatSipScreen() {
                                     </Picker>
                                 </View>
                             </View>
-                            <View className='h-0.5 min-w-full bg-gray-300 mb-2'></View>
+                            <View className='h-0.5 min-w-full bg-gray-300 mb-2 rounded-full'></View>
                             <View className='mb-5'>
                                 <Text className="text-gray-700 dark:text-gray-200 mb-1">Kalemler: </Text>
                                 <Button
@@ -357,8 +389,8 @@ export default function SatSipScreen() {
                                 <>
                                     <Text variant='title3' className="text-gray-700 dark:text-gray-300 flex text-center font-semibold">Kalem Ayrıntıları</Text>
                                     {selected.map(item => (
-                                        <View key={item.value} className='flex flex-col min-h-32 bg-white dark:bg-gray-500 rounded-xl justify-center px-5 pb-5 border border-gray-300 dark:border-gray-500 shadow-md'>
-                                            <Text variant='heading' className='flex text-center mb-5'>{item.label}</Text>
+                                        <View key={item.value} className='flex flex-col min-h-32 bg-white dark:bg-gray-700 rounded-xl justify-center px-5 border border-gray-300 dark:border-gray-500 shadow-md'>
+                                            <Text variant='title3' className='flex text-center mb-5 font-semibold'>{item.label}</Text>
                                             <CustomTextInput
                                                 style='min-h-14 mb-3'
                                                 label="Satış Miktarı: "
@@ -369,6 +401,10 @@ export default function SatSipScreen() {
                                             /*                                             error={error && !username ? error : undefined}
                                             */
                                             />
+                                            <View className='mt-14'>
+                                                <Text variant='body' className='flex text-center text-sm'>Birim: <Text variant='subhead' className='font-semibold'>{item.unit}</Text></Text>
+                                                <Text variant='body' className='flex text-center text-sm'>Birim fiyatı: <Text variant='subhead' className='font-semibold'>{item.price}₺</Text></Text>
+                                            </View>
                                         </View>
                                     ))}
                                 </>
@@ -384,7 +420,7 @@ export default function SatSipScreen() {
                                 </Button>
                             </View>
                             <Sheet ref={bottomSheetModalRef} snapPoints={[500]}>
-                                {Object.keys(formData).length > 0 && Object.values(formData).every(item => item.quantity !== "") ? (
+                                {Object.keys(formData).length > 0 && Object.values(formData).every(item => item.quantity > 0) ? (
                                     <BottomSheetScrollView>
                                         {/* className='mx-auto min-w-full min-h-[80vh] flex-1 justify-between gap-4 px-8 mt-8 pb-14' */}
                                         <View className="mx-auto min-w-full min-h-[40vh] flex-1 items-center justify-center pb-8">
@@ -392,11 +428,17 @@ export default function SatSipScreen() {
                                                 Sipariş Özeti
                                             </Text>
                                             <Text className="text-foreground mb-10">
-                                                {Object.entries(formData).map(([key, value]) => (
-                                                    <Text key={key} className='mb-5' variant='subhead'>
-                                                        {value.label}: <Text variant='heading'>{value.quantity}{" adet\n"}</Text>
-                                                    </Text>
-                                                ))}
+                                                <View className='flex'>
+                                                    {Object.entries(formData).map(([key, value]) => (
+                                                        <View key={key}>
+                                                            <Text className='mb-3 mx-1' variant='subhead'>
+                                                                {value.label}: <Text variant='heading'>{value.quantity}{" adet\n"}</Text>Fiyat: <Text variant='heading'>{value.subtotal}₺</Text>
+                                                            </Text>
+                                                            <View className='h-0.5 bg-gray-200 dark:bg-gray-50 mb-2 rounded-full'></View>
+                                                        </View>
+                                                    ))}
+                                                    <Text variant='title1' className='mt-5'>Toplam Fiyat: <Text variant='title1' className='font-bold'>{totalPrice}₺</Text></Text>
+                                                </View>
                                             </Text>
                                         </View>
                                     </BottomSheetScrollView>
